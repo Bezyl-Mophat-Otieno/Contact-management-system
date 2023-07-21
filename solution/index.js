@@ -115,6 +115,7 @@ setTimeout(()=> {
 },3000)
 
 // function to update a contact and reflect that in the UI
+// For this you have to first fill the form and the click update button for your preferred contact
 const updateContact = (e)=> {
     const users = JSON.parse(localStorage.getItem('users'));
     const userToUpdate = e.target.parentElement.parentElement.children[0].textContent;
