@@ -42,11 +42,17 @@ class User {
 
 }
 
+const firstName = document.querySelector('#firstName');
+const lastName = document.querySelector('#lastName');
+const phoneNumber = document.querySelector('#phoneNumber');
+const tableBody = document.querySelector('.tableBody');
+
 // Create an empty array to store the created contacts 
 
-let contacts = []
-const createUser = ( contacts , user) => {
-    contacts = [...contacts, user];
+let contacts = JSON.parse(localStorage.getItem('users')) || []
+const createUser = (user) => {
+    contacts.push(user);
+    console.log(contacts)
     // The array should then be stored in local storage
     localStorage.setItem('users', JSON.stringify(contacts)); 
 
@@ -56,28 +62,29 @@ const createUser = ( contacts , user) => {
     // A function that adds a user from the form inputs into the table as well store it in the local storage
     document.querySelector('.addContactBtn').addEventListener('click', (e)=> {
     e.preventDefault();
-    const firstName = document.querySelector('#firstName').value;
-    const lastName = document.querySelector('#lastName').value;
-    const phoneNumber = document.querySelector('#phoneNumber').value;
-    const user = new User(firstName, lastName, phoneNumber);
-    // The user object whould be passed into the empty array of contacts
-    createUser(contacts, user);
-    document.querySelector('#firstName').value = "";
-    document.querySelector('#lastName').value = "";
-    document.querySelector('#phoneNumber').value = "";
-    displayUsers()
+    if(firstName.value === "" || lastName.value === "" || phoneNumber.value === "") {
+        throw new Error('Please fill all the fields');
+    }else{
+        const user = new User(firstName.value, lastName.value, phoneNumber.value);
+        // The user object whould be passed into the empty array of contacts
+        createUser(user);
+        displayUsers()
+        phoneNumber.value = "";
+        firstName.value = "";
+        lastName.value = "";
+    }
 
 })
 
 
 // A function that will display the users in the table from the local storage
  const displayUsers = ()=> {
-     
+    tableBody.innerHTML = "";
     const users = JSON.parse(localStorage.getItem('users'));
-    // console.log(users);
+    console.log(users);
     if(users) {
         users.forEach(user => {
-            document.querySelector('.tableBody').innerHTML += `
+           tableBody.innerHTML += `
             <tr>
             <td>${user.firstName}</td>
             <td>${user.lastName}</td>
@@ -104,7 +111,6 @@ const deleteContact = (e)=> {
     localStorage.setItem('users', JSON.stringify(newUsers));
     e.target.parentElement.parentElement.remove();
     displayUsers();
-
 }
 
 
@@ -113,9 +119,9 @@ const deleteContact = (e)=> {
 const updateContact = (e)=> {
     const users = JSON.parse(localStorage.getItem('users'));
     const userToUpdate = e.target.parentElement.parentElement.children[0].textContent;
-    console.log(userToUpdate);
+    // console.log(userToUpdate);
     const newUsers = users.filter(user => user.firstName !== userToUpdate);
-    console.log(newUsers);
+    // console.log(newUsers);
     localStorage.setItem('users', JSON.stringify(newUsers));
     e.target.parentElement.parentElement.remove();
     displayUsers();
@@ -132,7 +138,5 @@ setTimeout(()=> {
     updateBtns.forEach(btn => {
         btn.addEventListener('click', updateContact);
     });
-},3000)
-
-
+},1000)
 
