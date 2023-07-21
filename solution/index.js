@@ -103,19 +103,75 @@ displayUsers();
 
 
 
-// function to update a contact and reflect that in the UI
-const updateContact = (e)=> {
+// Function to populate the form with user data for update
+const populateFormForUpdate = (e) => {
     const users = JSON.parse(localStorage.getItem('users'));
     const userToUpdate = e.target.parentElement.parentElement.children[0].textContent;
-    // console.log(userToUpdate);
-    const newUsers = users.filter(user => user.firstName !== userToUpdate);
-    // console.log(newUsers);
-    localStorage.setItem('users', JSON.stringify(newUsers));
-    e.target.parentElement.parentElement.remove();
-    displayUsers();
-
-}
-
+    const user = users.find(user => user.firstName === userToUpdate);
+  
+    // Populate the form fields with user data
+    firstName.value = user.firstName;
+    lastName.value = user.lastName;
+    phoneNumber.value = user.phoneNumber;
+  
+    // Change the form submit button text to "Update"
+    document.querySelector('.addContactBtn').textContent = 'Update';
+    document.querySelector('.addContactBtn').classList.add('updateBtn');
+  }
+  
+ 
+  
+  // Update contact function
+  const updateContact = (e) => {
+    const users = JSON.parse(localStorage.getItem('users'));
+    const userToUpdate = e.target.parentElement.parentElement.children[0].textContent;
+    const userIndexToUpdate = users.findIndex(user => user.firstName === userToUpdate);
+  
+    if (userIndexToUpdate !== -1) {
+      // Get the updated values from the form
+      const updatedFirstName = firstName.value;
+      const updatedLastName = lastName.value;
+      const updatedPhoneNumber = phoneNumber.value;
+  
+      // Update the user data
+      users[userIndexToUpdate].updateContact(updatedFirstName, updatedLastName, updatedPhoneNumber);
+      localStorage.setItem('users', JSON.stringify(users));
+  
+      // Change the form submit button text back to "Add Contact"
+      document.querySelector('.addContactBtn').textContent = 'Add Contact';
+      document.querySelector('.addContactBtn').classList.remove('updateBtn');
+  
+      // Clear the form fields after updating
+      firstName.value = '';
+      lastName.value = '';
+      phoneNumber.value = '';
+  
+      displayUsers();
+    }
+  }
+  
+  // Add event listener to the form submit button for update
+  document.querySelector('.addContactBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+  
+    if (e.target.classList.contains('updateBtn')) {
+      // If the form submit button has the "updateBtn" class, call the updateContact function
+      updateContact(e);
+    } else {
+      // Otherwise, handle adding a new contact as before
+      if (firstName.value === "" || lastName.value === "" || phoneNumber.value === "") {
+        throw new Error('Please fill all the fields');
+      } else {
+        const user = new User(firstName.value, lastName.value, phoneNumber.value);
+        createUser(user);
+        displayUsers();
+        phoneNumber.value = "";
+        firstName.value = "";
+        lastName.value = "";
+      }
+    }
+  });
+  
 
 // Function to delete a contact and reflect that in the UI
 const deleteContact = (e) => {
@@ -126,10 +182,16 @@ const deleteContact = (e) => {
     displayUsers();
   }
   
-  // Add event listener to the tableBody to catch delete button clicks
+  // Add event listener to the tableBody to catch delete button clicks (event delegation)
   tableBody.addEventListener('click', (e) => {
     if (e.target.classList.contains('delete')) {
       deleteContact(e);
     }
+       // Add event listener to the tableBody to catch update button clicks
+    if (e.target.classList.contains('update')) {
+        populateFormForUpdate(e);
+      }
   });
+
+
 
