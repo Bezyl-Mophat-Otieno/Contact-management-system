@@ -59,23 +59,6 @@ const createUser = (user) => {
 }
 
 
-    // A function that adds a user from the form inputs into the table as well store it in the local storage
-    document.querySelector('.addContactBtn').addEventListener('click', (e)=> {
-    e.preventDefault();
-    if(firstName.value === "" || lastName.value === "" || phoneNumber.value === "") {
-        throw new Error('Please fill all the fields');
-    }else{
-        const user = new User(firstName.value, lastName.value, phoneNumber.value);
-        // The user object whould be passed into the empty array of contacts
-        createUser(user);
-        displayUsers()
-        phoneNumber.value = "";
-        firstName.value = "";
-        lastName.value = "";
-    }
-
-})
-
 
 // A function that will display the users in the table from the local storage
  const displayUsers = ()=> {
@@ -192,6 +175,7 @@ const deleteContact = (e) => {
         populateFormForUpdate(e);
       }
   });
+
 
 
 

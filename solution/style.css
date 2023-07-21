@@ -5,7 +5,7 @@
 body{
     width: 100vw;
     height: 100vh;
-    background-color: white;
+    background-color:hsl(249, 10%, 26%) ;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,11 +15,12 @@ body{
 
     width: 95vw;
     height: 95vh;
-    border: 2px solid black;
+    border: 2px solid  hsl(246, 25%, 77%);
     display:flex;
     justify-content: center;
     align-items: center;
     gap: 2vw;
+    border-radius: 2vh;
 
 }
 
@@ -39,15 +40,18 @@ body{
     align-items: center;
     gap :2vh;
     margin-top: 2vh;
+  
 }
 .form input{
     width:25vw;
     height: 2vh;
-    border: 2px solid black;
+    border: 3px solid  hsl(246, 25%, 77%) ;
     border-radius: 1vh;
     padding: 2vh;
     outline: none;
     background-color: transparent;
+    color: white;
+    font-size: 15px;
     
 }
 .form button{
@@ -68,12 +72,14 @@ body{
 .table {
     border-collapse: collapse;
     width: 60vw;
-    border: 2px solid #333;
+    background-color:  hsl(246, 25%, 77%);
+    overflow-y: scroll;
+    
 
   }
   
   th, td {
-    border: 1px solid #3b3737;
+    border: 1px solid hsl(249, 10%, 26%) ;
     padding: 8px;
     text-align: left;
   }
@@ -87,6 +93,7 @@ body{
   }
   .actions{
     width:10vw;
+    border:none;
   }
   .actionBtn{
     display: flex;
@@ -111,4 +118,24 @@ body{
     color: white;
     outline: none;
     cursor: pointer;
+  }
+
+  @media screen and (max-width: 412px) {
+
+    .mainContainer{
+      flex-direction: column;
+      align-items: center;
+      gap:3vh
+    }
+    .contactForm{
+      width: 80vw;
+    }
+    .form input{
+      width: 80vw;
+    }
+    .form button{
+      width: 80vw;
+    }
+
+    
   }
