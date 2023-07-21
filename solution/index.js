@@ -45,23 +45,23 @@ class User {
 // Create an empty array to store the created contacts 
 
 let contacts = []
+const createUser = ( contacts , user) => {
+    contacts = [...contacts, user];
+    // The array should then be stored in local storage
+    localStorage.setItem('users', JSON.stringify(contacts)); 
+
+}
 
 
-// A function that adds a user from the form inputs into the table as well store it in the local storage
-document.querySelector('.addContactBtn').addEventListener('click', (e)=> {
+    // A function that adds a user from the form inputs into the table as well store it in the local storage
+    document.querySelector('.addContactBtn').addEventListener('click', (e)=> {
     e.preventDefault();
     const firstName = document.querySelector('#firstName').value;
     const lastName = document.querySelector('#lastName').value;
     const phoneNumber = document.querySelector('#phoneNumber').value;
     const user = new User(firstName, lastName, phoneNumber);
     // The user object whould be passed into the empty array of contacts
-    // Before pushiing into the array , the array should be spread to make sure the already pushed objects are maintained
-    contacts = [...contacts, user];
-
-
-    // The array should then be stored in local storage
-    localStorage.setItem('users', JSON.stringify(contacts)); 
-
+    createUser(contacts, user);
     document.querySelector('#firstName').value = "";
     document.querySelector('#lastName').value = "";
     document.querySelector('#phoneNumber').value = "";
@@ -72,7 +72,7 @@ document.querySelector('.addContactBtn').addEventListener('click', (e)=> {
 
 // A function that will display the users in the table from the local storage
  const displayUsers = ()=> {
-
+     
     const users = JSON.parse(localStorage.getItem('users'));
     // console.log(users);
     if(users) {
@@ -106,27 +106,33 @@ const deleteContact = (e)=> {
     displayUsers();
 
 }
-// Waiting for the buttons to be printed on the Ui before adding event listeners
-setTimeout(()=> {
-    const deleteBtns = document.querySelectorAll('.delete');
-    deleteBtns.forEach(btn => {
-        btn.addEventListener('click', deleteContact);
-    });
-},3000)
+
 
 // function to update a contact and reflect that in the UI
 // For this you have to first fill the form and the click update button for your preferred contact
 const updateContact = (e)=> {
     const users = JSON.parse(localStorage.getItem('users'));
     const userToUpdate = e.target.parentElement.parentElement.children[0].textContent;
-    // console.log(userToUpdate);
+    console.log(userToUpdate);
     const newUsers = users.filter(user => user.firstName !== userToUpdate);
-    // console.log(newUsers);
+    console.log(newUsers);
     localStorage.setItem('users', JSON.stringify(newUsers));
     e.target.parentElement.parentElement.remove();
     displayUsers();
 
 }
+
+// Waiting for the buttons to be printed on the Ui before adding event listeners
+setTimeout(()=> {
+    const deleteBtns = document.querySelectorAll('.delete');
+    deleteBtns.forEach(btn => {
+        btn.addEventListener('click', deleteContact);
+    });
+    const updateBtns = document.querySelectorAll('.update');
+    updateBtns.forEach(btn => {
+        btn.addEventListener('click', updateContact);
+    });
+},3000)
 
 
 
