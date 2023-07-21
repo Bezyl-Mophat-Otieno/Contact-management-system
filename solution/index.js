@@ -101,21 +101,9 @@ const createUser = (user) => {
 // Initialize the Ui with the stored users
 displayUsers();
 
-// function to delete a contact and reflect that in the UI
-const deleteContact = (e)=> {
-    const users = JSON.parse(localStorage.getItem('users'));
-    const userToDelete = e.target.parentElement.parentElement.children[0].textContent;
-    // console.log(userToDelete);
-    const newUsers = users.filter(user => user.firstName !== userToDelete);
-    // console.log(newUsers);
-    localStorage.setItem('users', JSON.stringify(newUsers));
-    e.target.parentElement.parentElement.remove();
-    displayUsers();
-}
 
 
 // function to update a contact and reflect that in the UI
-// For this you have to first fill the form and the click update button for your preferred contact
 const updateContact = (e)=> {
     const users = JSON.parse(localStorage.getItem('users'));
     const userToUpdate = e.target.parentElement.parentElement.children[0].textContent;
@@ -128,15 +116,20 @@ const updateContact = (e)=> {
 
 }
 
-// Waiting for the buttons to be printed on the Ui before adding event listeners
-setTimeout(()=> {
-    const deleteBtns = document.querySelectorAll('.delete');
-    deleteBtns.forEach(btn => {
-        btn.addEventListener('click', deleteContact);
-    });
-    const updateBtns = document.querySelectorAll('.update');
-    updateBtns.forEach(btn => {
-        btn.addEventListener('click', updateContact);
-    });
-},1000)
+
+// Function to delete a contact and reflect that in the UI
+const deleteContact = (e) => {
+    const users = JSON.parse(localStorage.getItem('users'));
+    const userToDelete = e.target.parentElement.parentElement.children[0].textContent;
+    const newUsers = users.filter(user => user.firstName !== userToDelete);
+    localStorage.setItem('users', JSON.stringify(newUsers));
+    displayUsers();
+  }
+  
+  // Add event listener to the tableBody to catch delete button clicks
+  tableBody.addEventListener('click', (e) => {
+    if (e.target.classList.contains('delete')) {
+      deleteContact(e);
+    }
+  });
 
