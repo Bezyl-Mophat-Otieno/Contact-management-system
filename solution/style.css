@@ -1,0 +1,114 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mainContainer{
+
+    width: 95vw;
+    height: 95vh;
+    border: 2px solid black;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2vw;
+
+}
+
+.contactForm{
+    width: 30vw;
+    height: 50vh;
+}
+.contacts{
+    width:60vw;
+    height:90vh;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap :2vh;
+    margin-top: 2vh;
+}
+.form input{
+    width:25vw;
+    height: 2vh;
+    border: 2px solid black;
+    border-radius: 1vh;
+    padding: 2vh;
+    outline: none;
+    background-color: transparent;
+    
+}
+.form button{
+    width:25vw;
+    height: 6vh;
+    border-radius: 10vh;
+    outline: none;
+    cursor:pointer;
+}
+
+.contacts{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 60vw;
+    border: 2px solid #333;
+
+  }
+  
+  th, td {
+    border: 1px solid #3b3737;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  .actions{
+    width:10vw;
+  }
+  .actionBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .actionBtn  .update{
+    width: 10vw;
+    height: 5vh;
+    border-radius: 5vh;
+    background-color: green;
+    color: white;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .actionBtn  .delete{
+    width: 10vw;
+    height: 5vh;
+    border-radius: 5vh;
+    background-color: red;
+    color: white;
+    outline: none;
+    cursor: pointer;
+  }
