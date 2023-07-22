@@ -52,7 +52,6 @@ const tableBody = document.querySelector('.tableBody');
 let contacts = JSON.parse(localStorage.getItem('users')) || []
 const createUser = (user) => {
     contacts.push(user);
-    console.log(contacts)
     // The array should then be stored in local storage
     localStorage.setItem('users', JSON.stringify(contacts)); 
 
@@ -64,7 +63,6 @@ const createUser = (user) => {
  const displayUsers = ()=> {
     tableBody.innerHTML = "";
     const users = JSON.parse(localStorage.getItem('users'));
-    console.log(users);
     if(users) {
         users.forEach(user => {
            tableBody.innerHTML += `
@@ -93,7 +91,9 @@ const populateFormForUpdate = (e) => {
     const user = users.find(user => user.firstName === userToUpdate);
   
     // Populate the form fields with user data
+
     firstName.value = user.firstName;
+    firstName.setAttribute('disabled', true);
     lastName.value = user.lastName;
     phoneNumber.value = user.phoneNumber;
   
@@ -107,25 +107,31 @@ const populateFormForUpdate = (e) => {
   // Update contact function
   const updateContact = (e) => {
     const users = JSON.parse(localStorage.getItem('users'));
-    const userToUpdate = e.target.parentElement.parentElement.children[0].textContent;
+    const userToUpdate = firstName.value;
     const userIndexToUpdate = users.findIndex(user => user.firstName === userToUpdate);
-  
+
     if (userIndexToUpdate !== -1) {
+
+    // remove the outdated user fro the arrray of users
+    users.splice(userIndexToUpdate, 1);
+    // Update the local storage with the updated array of users without the outdated user
+    localStorage.setItem('users', JSON.stringify(users));  
       // Get the updated values from the form
       const updatedFirstName = firstName.value;
       const updatedLastName = lastName.value;
       const updatedPhoneNumber = phoneNumber.value;
-  
-      // Update the user data
-      users[userIndexToUpdate].updateContact(updatedFirstName, updatedLastName, updatedPhoneNumber);
+      const user = new User(updatedFirstName, updatedLastName, updatedPhoneNumber);
+      users.push(user);
+      // Update the local storage with the updated array of users
       localStorage.setItem('users', JSON.stringify(users));
-  
+
       // Change the form submit button text back to "Add Contact"
       document.querySelector('.addContactBtn').textContent = 'Add Contact';
       document.querySelector('.addContactBtn').classList.remove('updateBtn');
   
       // Clear the form fields after updating
       firstName.value = '';
+      firstName.removeAttribute('disabled');
       lastName.value = '';
       phoneNumber.value = '';
   
